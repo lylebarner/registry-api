@@ -8,7 +8,7 @@ info:
   description: |
     Federated PDS API which provides actionable end points standardized
     between the different nodes.
-  version: 0.3.dev
+  version: 0.2.dev
   title: Planetary Data System API
   termsOfService: 'http://pds.nasa.gov'
   contact:
@@ -37,6 +37,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/products'
             application/xml:
+              schema:
+                type: object
+            application/pds4+xml:
               schema:
                 type: object
         '404':
@@ -135,6 +138,9 @@ paths:
             application/xml:
               schema:
                 type: object
+            application/pds4+xml:
+              schema:
+                type: object
         '404':
           description: lidvid not found
         '500':
@@ -197,6 +203,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/products'
             application/xml:
+              schema:
+                type: object
+            application/pds4+xml:
               schema:
                 type: object
         '404':
@@ -266,6 +275,9 @@ paths:
               schema: 
                 $ref: '#/components/schemas/products'
             application/xml:
+              schema:
+                type: object
+            application/pds4+xml:
               schema:
                 type: object
         '400':
@@ -434,6 +446,9 @@ paths:
             application/xml:
               schema:
                 type: object
+            application/pds4+xml:
+              schema:
+                type: object
         '404':
           description: lidvid not found
         '500':
@@ -501,6 +516,9 @@ paths:
               schema: 
                 $ref: '#/components/schemas/products'
             application/xml:
+              schema:
+                type: object
+            application/pds4+xml:
               schema:
                 type: object
         '400':
@@ -602,6 +620,9 @@ paths:
             application/xml:
               schema:
                 type: object
+            application/pds4+xml:
+              schema:
+                type: object
         '404':
           description: lidvid not found
         '500':
@@ -664,6 +685,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/products'
             application/xml:
+              schema:
+                type: object
+            application/pds4+xml:
               schema:
                 type: object
         '404':
@@ -776,80 +800,40 @@ components:
         id:
           type: string
           description: identifier lidvid of the collection
-          xml:
-            prefix: 'pds_api'
-            namespace: 'http://pds.nasa.gov/api'
         type:
           type: string
-          xml:
-            prefix: 'pds_api'
-            namespace: 'http://pds.nasa.gov/api'
         title:
           type: string
-          xml:
-            prefix: 'pds_api'
-            namespace: 'http://pds.nasa.gov/api'
         description:
           type: string
-          xml:
-            prefix: 'pds_api'
-            namespace: 'http://pds.nasa.gov/api'
         start_date_time:
           type: string
           description: start date time of the observations in ISO8601
-          xml:
-            prefix: 'pds_api'
-            namespace: 'http://pds.nasa.gov/api'
         stop_date_time:
           type: string
           description: stop date time of the observations in ISO8601
-          xml:
-            prefix: 'pds_api'
-            namespace: 'http://pds.nasa.gov/api'
         investigations:
           type: array
           description: list of missions or observing campaigns which produced the data
           items:
             $ref: '#/components/schemas/reference'
-          xml:
-            prefix: 'pds_api'
-            namespace: 'http://pds.nasa.gov/api'
         observing_system_components: 
           type: array
           description: list of instruments or platforms generating the data
           items:
             $ref: '#/components/schemas/reference'
-          xml:
-            prefix: 'pds_api'
-            namespace: 'http://pds.nasa.gov/api'
         targets: 
           type: array
           description: list of targets or feature of interest the observation.
           items:
             $ref: '#/components/schemas/reference'
-          xml:
-            prefix: 'pds_api'
-            namespace: 'http://pds.nasa.gov/api'
         metadata:
           $ref: '#/components/schemas/metadata'
         properties:
           type: object
           description: properties extracted from pds4 model, syntax for property name is <namespace>:<property>[/<namespace>:<property>]*
           additionalProperties:
-            $ref: '#/components/schemas/propertyArrayValues'
-          xml:
-            prefix: 'pds_api'
-            namespace: 'http://pds.nasa.gov/api'
-      xml:
-        prefix: 'pds_api'
-        namespace: 'http://pds.nasa.gov/api'
-    propertyArrayValues:
-      type: array 
-      items:
-        type: string
-      xml:
-        prefix: 'pds_api'
-        namespace: 'http://pds.nasa.gov/api'
+            type: object
     reference:
       type: object
       description: object describing a reference to a different product. TODO The properties should be defined by a standard (xlink, json-ld) to be chosen
@@ -859,36 +843,18 @@ components:
         title:
           type: string
           description: name to display for the external reference
-          xml:
-            prefix: 'pds_api'
-            namespace: 'http://pds.nasa.gov/api'
         id:
           type: string
           description: external reference, here lidvid urn
-          xml:
-            prefix: 'pds_api'
-            namespace: 'http://pds.nasa.gov/api'
         href:
           type: string
           description: external reference url of the current reference resolvable by the current API server, http://pds.nasa.gov/api/products/urn:nasa...
-          xml:
-            prefix: 'pds_api'
-            namespace: 'http://pds.nasa.gov/api'
         type:
           type: string
           description: type of the external reference, can be displayed as an icon for example
-          xml:
-            prefix: 'pds_api'
-            namespace: 'http://pds.nasa.gov/api'
         description:
           type: string
           description: longer description for the external reference, can be displayed in a tooltip
-          xml:
-            prefix: 'pds_api'
-            namespace: 'http://pds.nasa.gov/api'
-      xml:
-        prefix: 'pds_api'
-        namespace: 'http://pds.nasa.gov/api'
     metadata:
       type: object
       required:
@@ -896,27 +862,12 @@ components:
       properties:
         creation_date_time:
           type: string
-          xml:
-            prefix: 'pds_api'
-            namespace: 'http://pds.nasa.gov/api'
         update_date_time:
           type: string
-          xml:
-            prefix: 'pds_api'
-            namespace: 'http://pds.nasa.gov/api'
         version:
           type: string
-          xml:
-            prefix: 'pds_api'
-            namespace: 'http://pds.nasa.gov/api'
         label_url:
           type: string
-          xml:
-            prefix: 'pds_api'
-            namespace: 'http://pds.nasa.gov/api'
-      xml:
-        prefix: 'pds_api'
-        namespace: 'http://pds.nasa.gov/api'
     errorMessage:
       type: object
       required:
@@ -927,27 +878,12 @@ components:
       properties:
         url:
           type: string
-          xml:
-            prefix: 'pds_api'
-            namespace: 'http://pds.nasa.gov/api'
         resource:
           type: string
-          xml:
-            prefix: 'pds_api'
-            namespace: 'http://pds.nasa.gov/api'
         query:
           type: string
-          xml:
-            prefix: 'pds_api'
-            namespace: 'http://pds.nasa.gov/api'
         message:
           type: string
-          xml:
-            prefix: 'pds_api'
-            namespace: 'http://pds.nasa.gov/api'
-      xml:
-        prefix: 'pds_api'
-        namespace: 'http://pds.nasa.gov/api'
       example:
         {
           url: 'https://pds.nasa.gov/api/1.0/collections',
